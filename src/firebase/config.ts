@@ -1,5 +1,7 @@
 import { getAnalytics } from "firebase/analytics";
 import { initializeApp, getApps } from "firebase/app";
+import { connectAuthEmulator, getAuth } from "firebase/auth";
+import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -14,5 +16,10 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const firebaseAnalytics = getAnalytics(firebaseApp);
+
+if (process.env.NODE_ENV === 'development') {
+  connectAuthEmulator(getAuth(firebaseApp), 'http://0.0.0.0:9099');
+  connectFirestoreEmulator(getFirestore(firebaseApp), '0.0.0.0', 8080);
+}
 
 export { firebaseApp, firebaseAnalytics };

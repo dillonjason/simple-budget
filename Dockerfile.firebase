@@ -1,0 +1,12 @@
+FROM node:18.18.0
+
+# Install java for Firebase emulators
+RUN apt-get update \
+  && apt-get install default-jre -y
+
+# Install global deps
+RUN npm i -g firebase-tools
+
+WORKDIR /app
+
+COPY . /app
