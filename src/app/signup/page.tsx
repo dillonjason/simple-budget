@@ -1,7 +1,7 @@
 'use client';
 
 import { FormTextField } from '@/components/form/FormTextField';
-import { login } from '@/firebase/auth/login';
+import { signup } from '@/firebase/auth/signup';
 import { Button, Grid } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
@@ -10,7 +10,7 @@ type LoginFormValue = {
   password: string;
 };
 
-export default function Login() {
+export default function Signup() {
   const { control, handleSubmit, setError } = useForm<LoginFormValue>({
     defaultValues: {
       email: '',
@@ -19,7 +19,7 @@ export default function Login() {
   });
 
   const onSubmit: SubmitHandler<LoginFormValue> = async (data) => {
-    const result = await login(data.email, data.password);
+    const result = await signup(data.email, data.password);
 
     if (result.isOk()) {
       alert('success');
@@ -44,7 +44,7 @@ export default function Login() {
               rules={{
                 required: {
                   value: true,
-                  message: 'Email is required to login',
+                  message: 'Email is required to sign up',
                 },
               }}
               fullWidth
@@ -59,7 +59,7 @@ export default function Login() {
               rules={{
                 required: {
                   value: true,
-                  message: 'Password is required to login',
+                  message: 'Password is required to sign up',
                 },
               }}
               fullWidth
@@ -67,7 +67,7 @@ export default function Login() {
           </Grid>
           <Grid item xs={12}>
             <Button fullWidth variant="contained" size="large" type="submit">
-              Login
+              Sign Up
             </Button>
           </Grid>
         </Grid>
