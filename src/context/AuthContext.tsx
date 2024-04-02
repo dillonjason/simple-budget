@@ -25,9 +25,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    console.log('setting up auth listener');
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      console.log('setting user', user);
       setUser(user ?? undefined);
       setLoading(false);
     });

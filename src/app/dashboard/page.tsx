@@ -11,9 +11,11 @@ import { getAuth } from 'firebase/auth';
 import { DocumentData, DocumentSnapshot } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 
+type PushFn = (url: string) => void;
+
 async function fetchData(
   userId: string | undefined,
-  push: (url: string) => void,
+  push: PushFn,
 ): Promise<Result<DocumentSnapshot<unknown, DocumentData>, null>> {
   if (userId === undefined) {
     push('/login');
@@ -29,31 +31,33 @@ async function fetchData(
     if (result.isOk()) {
       return new Ok(result.value);
     } else {
-      await logout();
-      push('/login');
+      await logout(push);
       return new Err(null);
     }
   } catch (e) {
-    await logout();
-    push('/login');
+    await logout(push);
     return new Err(null);
   }
 }
 
-async function logout() {
+async function logout(push: PushFn) {
   const auth = getAuth(firebaseApp);
   await auth.signOut();
+  push('/login');
 }
 
 export default function Dashboard() {
   const { push } = useRouter();
   const { user } = useAuthContext();
-  const {} = useAsync(() => fetchData(user?.uid, push));
+
+  if (!user) {
+    logout(push);
+  }
 
   return (
     <main>
       <h1>Logged in!</h1>
-      <Button onClick={logout}>Logout</Button>
+      <Button onClick={() => logout(push)}>Logout</Button>
     </main>
   );
 }
