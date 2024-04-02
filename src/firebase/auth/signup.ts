@@ -1,3 +1,5 @@
+'use client';
+
 import { Ok, Err, Result } from '@/interface/result';
 import { TypeSafeError } from '@/interface/typeSafeError';
 import { firebaseApp } from '../config';
@@ -7,7 +9,7 @@ import {
   getAuth,
 } from 'firebase/auth';
 
-export async function signup(
+export async function signUp(
   email: string,
   password: string,
 ): Promise<Result<UserCredential, Error>> {

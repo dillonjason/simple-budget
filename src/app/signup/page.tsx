@@ -1,7 +1,5 @@
-'use client';
-
 import { FormTextField } from '@/components/form/FormTextField';
-import { signup } from '@/firebase/auth/signup';
+import { signUp } from '@/firebase/auth/signUp';
 import { Button, Grid } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
@@ -10,7 +8,7 @@ type LoginFormValue = {
   password: string;
 };
 
-export default function Signup() {
+export default function SignUp() {
   const { control, handleSubmit, setError } = useForm<LoginFormValue>({
     defaultValues: {
       email: '',
@@ -19,7 +17,7 @@ export default function Signup() {
   });
 
   const onSubmit: SubmitHandler<LoginFormValue> = async (data) => {
-    const result = await signup(data.email, data.password);
+    const result = await signUp(data.email, data.password);
 
     if (result.isOk()) {
       alert('success');

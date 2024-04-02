@@ -1,8 +1,9 @@
 'use client';
 
 import { FormTextField } from '@/components/form/FormTextField';
-import { login } from '@/firebase/auth/login';
+import { signIn } from '@/firebase/auth/signIn';
 import { Button, Grid } from '@mui/material';
+import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 type LoginFormValue = {
@@ -11,6 +12,7 @@ type LoginFormValue = {
 };
 
 export default function Login() {
+  const { push } = useRouter();
   const { control, handleSubmit, setError } = useForm<LoginFormValue>({
     defaultValues: {
       email: '',
@@ -19,10 +21,10 @@ export default function Login() {
   });
 
   const onSubmit: SubmitHandler<LoginFormValue> = async (data) => {
-    const result = await login(data.email, data.password);
+    const result = await signIn(data.email, data.password);
 
     if (result.isOk()) {
-      alert('success');
+      push('/dashboard');
     } else {
       setError('password', {
         type: 'server',

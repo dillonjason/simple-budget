@@ -7,7 +7,7 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 
-export async function login(
+export async function signIn(
   email: string,
   password: string,
 ): Promise<Result<UserCredential, Error>> {
